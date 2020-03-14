@@ -15,7 +15,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using CommonServiceLocator;
-using WPFExample.Service;
 //using WPFExample.Service;
 
 namespace WPFExample.ViewModel
@@ -29,26 +28,14 @@ namespace WPFExample.ViewModel
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
-        /// 
-        bool IsDesignTime = true;
-  
-
+        ///
         public ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            if(IsDesignTime == false)
-            {
-                SimpleIoc.Default.Register<IAgin, AginMotor>();
-            }
-            else
-            {
-                SimpleIoc.Default.Register<IAgin, DummyAginMotor>();
-            }
-
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<Sub1ViewModel>();
-            SimpleIoc.Default.Register<Sub2ViewModel>();
+            SimpleIoc.Default.Register<Example1ViewModel>();
+            SimpleIoc.Default.Register<Example2ViewModel>();
         }
 
         public MainViewModel MainVIewModel
@@ -59,15 +46,6 @@ namespace WPFExample.ViewModel
 
             }
         }
-
-        public Sub1ViewModel Sub1ViewModel
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<Sub1ViewModel>();
-            }
-        }
-
 
 
         public static void Cleanup()

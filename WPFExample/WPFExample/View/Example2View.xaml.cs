@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WPFExample.View
 {
     /// <summary>
-    /// Sub2View.xaml에 대한 상호 작용 논리
+    /// Example2View.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class Sub2View : UserControl
+    public partial class Example2View : UserControl
     {
-        public Sub2View()
+        public Example2View()
         {
             InitializeComponent();
         }

@@ -1,8 +1,10 @@
 using GalaSoft.MvvmLight;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using WPFExample.Service;
 using CommonServiceLocator;
+using System.Collections.ObjectModel;
+using GalaSoft.MvvmLight.Ioc;
+using WPFExample.Model;
 
 namespace WPFExample.ViewModel
 {
@@ -20,62 +22,59 @@ namespace WPFExample.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-
-
         public MainViewModel()
         {
+            ViewModelCollection.Add(new MainMenu()
+            {
+                Name = "Example1",
+                ViewMode = SimpleIoc.Default.GetInstance<Example1ViewModel>()
+            });
 
+            ViewModelCollection.Add(new MainMenu()
+            {
+                Name = "Example2",
+                ViewMode = SimpleIoc.Default.GetInstance<Example2ViewModel>()
+            });
 
-           
+            ViewModelContent = SimpleIoc.Default.GetInstance<Example1ViewModel>();
         }
 
-        private ViewModelBase _SubContent = null;
-        public ViewModelBase SubContent
+        private ViewModelBase _ViewModelContent = null;     //  Backing Field
+        public ViewModelBase ViewModelContent
         {
-            get => _SubContent;
-            set =>Set<ViewModelBase>(nameof(SubContent), ref _SubContent, value);
-            
+            get => _ViewModelContent;
+            set => Set<ViewModelBase>(nameof(ViewModelContent), ref _ViewModelContent, value);
         }
 
-
-
-        private ICommand _ViewModel1Command = null;
-        public ICommand ViewModel1Command
+        private ObservableCollection<MainMenu> _ViewModelCollection = null;
+        public ObservableCollection<MainMenu> ViewModelCollection
         {
-
             get
             {
-                if (_ViewModel1Command == null)
+                if (_ViewModelCollection == null)
                 {
-                    _ViewModel1Command = new RelayCommand(() =>
-                    {
-                        this.SubContent = ServiceLocator.Current.GetInstance<Sub1ViewModel>();
-                    });
+                    _ViewModelCollection = new ObservableCollection<MainMenu>();
                 }
 
-                return _ViewModel1Command;
+                return _ViewModelCollection;
             }
-
+            //set => Set<ObservableCollection<ViewModelBase>>(nameof(ViewModelCollection), ref _ViewModelCollection, value);
         }
 
 
-        private ICommand _ViewModel2Command = null;
-        public ICommand ViewModel2Command
+        private MainMenu _SelectedMenu = null;     //  Backing Field
+        public MainMenu SelectedMenu
         {
-
-            get
+            get => _SelectedMenu;
+            set
             {
-                if (_ViewModel2Command == null)
+                if (null != value)
                 {
-                    _ViewModel2Command = new RelayCommand(() =>
-                    {
-                        this.SubContent = ServiceLocator.Current.GetInstance<Sub2ViewModel>();
-                    });
+                    ViewModelContent = value.ViewMode;
                 }
 
-                return _ViewModel2Command;
+                Set<MainMenu>(nameof(SelectedMenu), ref _SelectedMenu, value);
             }
-
         }
     }
 }

@@ -8,58 +8,46 @@
         xmlns:local="clr-namespace:WPFExample"
         xmlns:viewmodel="clr-namespace:WPFExample.ViewModel"
         xmlns:view="clr-namespace:WPFExample.View"
+        xmlns:vm="clr-namespace:WPFExample.ViewModel"
+        xmlns:model="clr-namespace:WPFExample.Model"
         mc:Ignorable="d"
         Title="MainWindow" 
         Height="450" 
         Width="800"
         DataContext="{Binding Source={StaticResource Locator}, Path=MainVIewModel}">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="50"></RowDefinition>
-        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ContentPresenter Grid.Column="0" 
-                          Grid.Row="0"
-                          Grid.ColumnSpan="2"
-                          Content="{Binding SubContent}">
-            
-            
-            <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type viewmodel:Sub1ViewModel}">
-                    <view:Sub1View></view:Sub1View>
+        <ListView Grid.Column="0" 
+                  ItemsSource="{Binding ViewModelCollection}"
+                  BorderThickness="0" SelectedItem="{Binding SelectedMenu}">
+
+            <ListView.Resources>
+                <DataTemplate DataType="{x:Type model:MainMenu}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/Image/icons8_user_menu_female_100px_1.png" Grid.Column="0"></Image>
+                        <TextBlock TextWrapping="Wrap" VerticalAlignment="Center" Text="{Binding Name}" Grid.Column="1"></TextBlock>
+                    </Grid>
                 </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodel:Sub2ViewModel}">
-                    <view:Sub2View></view:Sub2View>
+            </ListView.Resources>
+
+        </ListView>
+        <ContentPresenter Grid.Column="1" Content="{Binding ViewModelContent}">
+            <ContentPresenter.Resources>
+                <DataTemplate DataType="{x:Type vm:Example1ViewModel}">
+                    <view:Example1View></view:Example1View>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type vm:Example2ViewModel}">
+                    <view:Example2View></view:Example2View>
                 </DataTemplate>
             </ContentPresenter.Resources>
-            
-            
-            
-        </ContentPresenter>
-        
-        
-        <Button Grid.Row="1" Grid.Column="0" Content="Hit!!!" Command="{Binding ViewModel1Command}"></Button>
-        <Button Grid.Row="1" Grid.Column="1" Content="Hit!!!" Command="{Binding ViewModel2Command}"></Button>
-
-
-        <ContentPresenter Grid.Column="2" 
-                          Grid.Row="0"
-                          Content="{Binding Source={StaticResource Locator}, Path=Sub1ViewModel}">
-
-
-            <ContentPresenter.Resources>
-                <DataTemplate DataType="{x:Type viewmodel:Sub1ViewModel}">
-                    <view:Sub1View></view:Sub1View>
-                </DataTemplate>
-            </ContentPresenter.Resources>
-
-
-
         </ContentPresenter>
     </Grid>
 </Window>
